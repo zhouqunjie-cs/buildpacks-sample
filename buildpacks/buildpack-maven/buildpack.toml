@@ -1,0 +1,8 @@
+api = "0.5"
+
+[buildpack]
+  id = "examples/maven"
+  version = "0.0.1"
+
+[[stacks]]
+  id = "com.atbug.buildpacks.example.stacks.maven"

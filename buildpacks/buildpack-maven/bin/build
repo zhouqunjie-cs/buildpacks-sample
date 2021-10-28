@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+layers_dir="$1"
+env_dir="$2/env"
+plan_path="$3"
+
+m2_layer_dir="${layers_dir}/maven_m2"
+if [[ ! -d ${m2_layer_dir} ]]; then
+  mkdir -p ${m2_layer_dir}
+  echo "cache = true" > ${m2_layer_dir}.toml
+fi
+ln -s ${m2_layer_dir} $HOME/.m2
+
+echo "---> Running Maven"
+mvn clean install -B -DskipTests
+
+target_dir="target"
+for jar_file in $(find "$target_dir" -maxdepth 1 -name "*.jar" -type f); do
+  cat >> "${layers_dir}/launch.toml" <<EOL
+[[processes]]
+type = "web"
+command = "java -jar ${jar_file}"
+EOL
+  break;
+done

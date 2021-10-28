@@ -1,0 +1,14 @@
+[[buildpacks]]
+id = "examples/maven"
+version = "0.0.1"
+uri = "../buildpacks/buildpack-maven"
+
+[[order]]
+[[order.group]]
+id = "examples/maven"
+version = "0.0.1"
+
+[stack]
+id = "com.atbug.buildpacks.example.stacks.maven"
+run-image = "addozhang/samples-buildpacks-stack-run:latest"
+build-image = "addozhang/samples-buildpacks-stack-build:latest"
